@@ -50,7 +50,7 @@ The project consists of a main configuration and a module for infrastructure com
         ├── variables.tf  # Module's variables, specific to infrastructure
         ├── outputs.tf    # Module's outputs to be accessed by the root
 
-
+```
 ## Configuration
 
 ### Variables
@@ -75,13 +75,13 @@ The database password is generated securely using the `random` provider and stor
 
 First, initialize Terraform to download necessary provider plugins and set up the working directory:
 
-terraform init
+```terraform init```
 
 ### 2. Plan the Infrastructure
 
 To view the resources that will be created and verify the configuration before applying the changes, run:
 
-terraform plan
+```terraform plan```
 
 This command will show a preview of what Terraform intends to create based on your configuration.
 
@@ -89,7 +89,7 @@ This command will show a preview of what Terraform intends to create based on yo
 
 Once you're satisfied with the plan, apply the configuration to provision the resources on AWS. Terraform will prompt you for confirmation before proceeding:
 
-terraform apply
+```terraform apply```
 
 Terraform will output the necessary details, including:
 - Public IP of the EC2 instance
@@ -99,7 +99,7 @@ Terraform will output the necessary details, including:
 
 ### 4. Accessing the EC2 Instance
 
-After the infrastructure is deployed, you can SSH into the EC2 instance using its public IP address (provided in the output). Ensure that your security group settings and SSH key are correctly configured to allow access.
+After deploying the infrastructure, you can SSH into the EC2 instance using its public IP address (provided in the output). Ensure your security group settings and SSH key are correctly configured to allow access.
 
 ## Outputs
 
@@ -114,13 +114,13 @@ The `outputs.tf` file in the root module provides important details after the in
 
 To view the outputs, use the following command:
 
-terraform output
+```terraform output```
 
 ## Cleaning Up
 
 To delete all resources created by this Terraform project, run:
 
-terraform destroy
+```terraform destroy```
 
 **Important**: This command will remove all provisioned resources, including data stored in the RDS instance. Ensure you back up any necessary data before executing this command.
 
