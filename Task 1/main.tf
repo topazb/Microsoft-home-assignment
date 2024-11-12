@@ -1,5 +1,5 @@
 module "infrastructure" {
-  source = "./infrastructure"
+  source = "infrastructure"
 
   region                = "us-east-1"
   vpc_cidr_block        = var.vpc_cidr_block
