@@ -21,6 +21,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 resource "random_password" "db_password" {
   length  = 16
   special = true
+  override_special = "!#$%&*()-_=+[]{}|;:,.<>?" # Excludes '/', '@', '"', and spaces
 }
 
 resource "aws_secretsmanager_secret" "db_password_secret" {
@@ -29,5 +30,5 @@ resource "aws_secretsmanager_secret" "db_password_secret" {
 
 resource "aws_secretsmanager_secret_version" "db_password_secret_version" {
   secret_id     = aws_secretsmanager_secret.db_password_secret.id
-  secret_string = jsonencode({ password = random_password.db_password.result })
+  secret_string = random_password.db_password.result
 }

@@ -12,9 +12,5 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"  # Default region
-}
-
-provider "random" {
-  # No additional configuration needed
+  region = var.region  # Default region
 }

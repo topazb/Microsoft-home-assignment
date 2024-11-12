@@ -51,15 +51,3 @@ variable "db_name" {
   type        = string
   default     = "mydatabase"
 }
-
-variable "s3_bucket_name" {
-  description = "Name of the S3 bucket for Terraform state"
-  type        = string
-  default     = "my-terraform-state-bucket"
-}
-
-variable "dynamodb_table_name" {
-  description = "Name of the DynamoDB table for Terraform state locking"
-  type        = string
-  default     = "terraform-locks"
-}

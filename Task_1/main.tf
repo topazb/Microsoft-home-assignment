@@ -1,7 +1,7 @@
 module "infrastructure" {
-  source = "infrastructure"
+  source = "./infrastructure"
 
-  region                = "us-east-1"
+  region                = var.region
   vpc_cidr_block        = var.vpc_cidr_block
   public_subnet_cidr    = var.public_subnet_cidr
   private_subnet_cidr_a = var.private_subnet_cidr_a
