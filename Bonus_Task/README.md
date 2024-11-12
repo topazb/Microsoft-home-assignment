@@ -17,7 +17,7 @@ This guide provides instructions for deploying an NGINX web server on an Amazon 
 1. Run the following commands to apply the configuration files:
 
     ```bash
-    kubectl apply -f deployment.yaml
+    kubectl apply -f infrastructure.yaml
     kubectl apply -f service.yaml
     ```
 
