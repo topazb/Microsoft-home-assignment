@@ -62,8 +62,18 @@ ssh -i your-key-pair.pem ec2-user@<public-ip>
 The RDS instance is in a private subnet and cannot be accessed directly from the internet. However, the EC2 instance in the public subnet can communicate with the RDS instance.
 
 - To connect to the RDS MySQL instance, SSH into the EC2 instance and use the `mysql` client to connect:
+
+#### Install the MySQL client:
+```bash
+# Update the package index
+sudo dnf update -y
+
+# Install the MariaDB 10.5 client with auto "yes"
+sudo dnf install -y mariadb105
 ```
-mysql -h <RDS-endpoint> -u admin -p
+
+```
+mysql -h `aws rds describe-db-instances --query "DBInstances[?DBInstanceIdentifier=='myrdsinstance'].Endpoint.Address" --output text` -u admin -p
 ```
 
 ### Step 4: Cleanup

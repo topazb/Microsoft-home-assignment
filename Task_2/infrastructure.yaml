@@ -59,20 +59,77 @@ Resources:
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
 
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociationA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnetRouteTableAssociationB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetB
+      RouteTableId: !Ref PublicRouteTable
+
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow HTTP and RDS Communication
+      GroupDescription: Allow HTTP, SSH, and RDS Communication
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - CidrIp: "0.0.0.0/0"
           IpProtocol: "tcp"
           FromPort: "80"
           ToPort: "80"
+        - CidrIp: "0.0.0.0/0"
+          IpProtocol: "tcp"
+          FromPort: "22"
+          ToPort: "22"
         - CidrIp: "10.0.0.0/16"
           IpProtocol: "tcp"
           FromPort: "3306"
           ToPort: "3306"
+
+  EC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "ec2.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "EC2RDSAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "rds:DescribeDBInstances"
+                  - "rds:Connect"
+                  - "rds:DescribeDBClusters"
+                  - "rds:DescribeDBClusterEndpoints"  # Added the necessary permission
+                Resource: "*"
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref EC2Role
 
   EC2Instance:
     Type: AWS::EC2::Instance
@@ -80,9 +137,10 @@ Resources:
       InstanceType: t2.micro
       ImageId: ami-063d43db0594b521b  # Use your specified AMI ID
       KeyName: !Ref KeyName  # Make sure this parameter is provided
-      SubnetId: !Ref PublicSubnetA
+      SubnetId: !Ref PublicSubnetA  # Ensure the EC2 instance is in the public subnet
       SecurityGroupIds:
         - !Ref SecurityGroup
+      IamInstanceProfile: !Ref EC2InstanceProfile  # Attach Instance Profile
       Tags:
         - Key: Name
           Value: MyEC2Instance
