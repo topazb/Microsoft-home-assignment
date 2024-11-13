@@ -6,9 +6,9 @@ This repository holds my work for the DevOps Engineer assignment. I used Terrafo
 
 The repository is structured into three main directories, each representing a specific task in the assignment:
 
-- **Task 1** - Main infrastructure provisioning using Terraform ans AWS.
-- **Task 2** - Deployment configuration using CloudFormation YAML files.
-- **Task 3 (Bonus)** - Kubernetes configuration for container orchestration.
+- **Task_1** - Main infrastructure provisioning using Terraform ans AWS.
+- **Task_2** - Deployment configuration using CloudFormation YAML files.
+- **Task_3(Bonus)** - Kubernetes configuration for container orchestration.
 
 Each directory contains a dedicated `README.md` file with detailed instructions and explanations for that task.
 
