@@ -8,6 +8,7 @@ module "infrastructure" {
   private_subnet_cidr_b = var.private_subnet_cidr_b
   ami                   = var.ami
   instance_type         = var.instance_type
-  instance_name         = var.instance_name
-  db_name               = var.db_name
+  instance_name         = "web-instance"
+  db_name               = "mydatabase"
+  key_name              = var.key_name
 }

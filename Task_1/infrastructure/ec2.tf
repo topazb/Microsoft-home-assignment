@@ -50,6 +50,7 @@ resource "aws_instance" "web" {
   instance_type   = var.instance_type
   subnet_id       = aws_subnet.public.id
   security_groups = [aws_security_group.instance_sg.id]
+  key_name        = var.key_name
   tags = {
     Name = var.instance_name
   }

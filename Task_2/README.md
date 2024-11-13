@@ -22,17 +22,10 @@ Before deploying this CloudFormation template, ensure the following:
 
 ### Step 1: Create the CloudFormation Stack
 
-#### Via AWS Console:
-1. Log in to the [AWS Management Console](https://aws.amazon.com/console/).
-2. Go to the **CloudFormation** service.
-3. Click **Create stack**.
-4. Choose **Upload a template file** and upload the CloudFormation YAML file.
-5. Enter a stack name (e.g., `VPCWithEC2RDSStack`).
-6. Follow the prompts and click **Create stack**.
-
 #### Via AWS CLI:
-1. Save the CloudFormation YAML template to a file, e.g., `infrastructure.yaml`.
-2. Run the following CLI command:
+1. Make sure to run from `Microsoft-Home-assignment/Task_2`.
+2. Run the following CLI command: 
+* **Change the values of `<your-key-pair-name>` and `<your-db-password>`**
 
 ```
 aws cloudformation create-stack \
@@ -40,9 +33,19 @@ aws cloudformation create-stack \
   --template-body file://infrastructure.yaml \
   --capabilities CAPABILITY_NAMED_IAM \
   --parameters \
-    ParameterKey=KeyName,ParameterValue=your-key-pair-name \
-    ParameterKey=DBPassword,ParameterValue=your-db-password
+    ParameterKey=KeyName,ParameterValue=<your-key-pair-name> \
+    ParameterKey=DBPassword,ParameterValue=<your-db-password>
 ```
+
+#### Via AWS Console:
+1. Log in to the [AWS Management Console](https://aws.amazon.com/console/).
+2. Go to the **CloudFormation** service.
+3. Click **Create stack**.
+4. Choose **Upload a template file (`infrastructure.yaml`)** and upload the CloudFormation YAML file.
+5. Enter a stack name (e.g., `VPCWithEC2RDSStack`).
+6. Follow the prompts and click **Create stack**.
+
+
 ### Step 2: Access the EC2 Instance
 
 After the stack is created successfully, the EC2 instance is running in the public subnet. You can access it via SSH using your key pair.

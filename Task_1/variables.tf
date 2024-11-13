@@ -51,3 +51,7 @@ variable "db_name" {
   type        = string
   default     = "mydatabase"
 }
+
+variable "key_name" {
+  default = ""
+}

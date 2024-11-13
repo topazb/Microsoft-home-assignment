@@ -42,3 +42,9 @@ variable "db_name" {
   description = "Name of the RDS database"
   type        = string
 }
+
+variable "key_name" {
+  description = "user key for creating the ec2"
+  type        = string
+  default = ""
+}

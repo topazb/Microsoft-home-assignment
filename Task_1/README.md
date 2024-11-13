@@ -34,7 +34,7 @@ Before using this project, ensure you have the following:
 - **AWS Account** with credentials that allow provisioning of these resources
 - **Terraform** installed (version 0.12+ recommended)
 - **AWS CLI** installed and configured
-- **Access to create S3 buckets** (if using an S3 backend for state management)
+- **Key Pair** set up in the AWS region to be able to connect to the instance
 
 ## Project Structure
 
@@ -104,7 +104,12 @@ This command will show a preview of what Terraform intends to create based on yo
 
 Once you're satisfied with the plan, apply the configuration to provision the resources on AWS. Terraform will prompt
 you for confirmation before proceeding:
+* To be able to connect to the instance, add a key name and make your you have access to it's key pair.
 
+```bash
+terraform apply -var="key_name=<YOUR_KEY_NAME>"
+```
+* In case you would like to connect from the AWS console (without using a key) you can just run:
 ```bash
 terraform apply
 ```
@@ -120,11 +125,16 @@ Terraform will output the necessary details, including:
 
 After deploying the infrastructure, you can SSH into the EC2 instance using its public IP address (provided in the
 output). Ensure your security group settings and SSH key are correctly configured to allow access.
-* you should be able to access via the AWS console:
+* You should be able to access via the AWS console:
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console
 
+* Or use your public key:
+```bash
+ssh -i ~/path/to/key.pem ec2-user@<PUBLIC IP>
+```
 
-#### Install the MySQL client:
+### Testing DB connection
+#### 1.Install the MySQL client:
 ```bash
 # Update the package index
 sudo dnf update -y
@@ -133,10 +143,10 @@ sudo dnf update -y
 sudo dnf install -y mariadb105
 ```
 
-#### Run DB connection test 
-* replace DB_HOST (no port) and SECRET_ARN) from ```terrafrom output```:
+#### 2.Run DB connection test 
+* replace <DB_HOST> (with no port) and <SECRET_ARN> from ```terrafrom output```:
 ```bash
-export DB_HOST="DB_HOST" && # Set the DB host
+export DB_HOST="<DB_HOST>" && # Set the DB host
 export DB_PASSWORD=`aws secretsmanager get-secret-value --secret-id <SECRET_ARN> --query SecretString --output text` && # Set the DB password
 export DB_USER="admin" && # Set the DB username
 export DB_NAME="mydatabase" && # Set the DB name
